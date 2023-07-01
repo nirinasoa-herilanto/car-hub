@@ -20,6 +20,6 @@ npm run dev
 
 Nirinasoa Herilanto
 
-# Acknowledgement
+# Acknowledgments
 
 All JSMastery team's
