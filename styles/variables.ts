@@ -10,5 +10,6 @@ export const variables = css`
     --sky-100: #e0f2fe;
     --blue-600: #2563eb;
     --blue-800: #1e40af;
+    --gray-400: #9ca3af;
   }
 `;
