@@ -2,6 +2,8 @@ import { Poppins } from 'next/font/google';
 import { StyledComponentsRegistry } from '@project/lib';
 import { GlobalStyle } from '@project/styles';
 
+import { Footer, Header } from '@project/components';
+
 const poppins = Poppins({ subsets: ['latin'], weight: '400' });
 
 export const metadata = {
@@ -15,7 +17,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={poppins.className}>
         <StyledComponentsRegistry>
           <GlobalStyle />
-          <main>{children}</main>
+          <Header />
+          <main className="main fit">{children}</main>
+          <Footer />
         </StyledComponentsRegistry>
       </body>
     </html>
