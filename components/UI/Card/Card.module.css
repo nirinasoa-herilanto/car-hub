@@ -1,0 +1,5 @@
+.card {
+  padding: 10px;
+  background: var(--sky-100);
+  border-radius: 20px;
+}
