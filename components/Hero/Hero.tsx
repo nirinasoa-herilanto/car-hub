@@ -35,7 +35,7 @@ const HeroWrapper = styled.div`
       margin-top: 0;
       width: 100%;
       height: calc(100vh - 80px);
-      max-height: 752px;
+      max-height: 520px;
 
       display: flex;
       flex-direction: row;
