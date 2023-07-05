@@ -37,3 +37,20 @@ export const generateCarImageUrl = (car: ICar, angle?: string) => {
 
   return `${url}`;
 };
+
+/**
+ * Use to update cars data by adding image link
+ */
+export const generateCarsWithImageData = (data: ICar[]): ICar[] => {
+  return data.map((car) => {
+    const carImage = generateCarImageUrl(car);
+    return { ...car, image: carImage };
+  });
+};
+
+/**
+ * Use to get a portion of text
+ */
+export const truncate = (txt: string, nb: number) => {
+  return txt.length > nb ? `${txt.slice(0, nb - 1)} ...` : txt;
+};
