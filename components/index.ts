@@ -4,11 +4,17 @@
 export { default as Header } from './Common/Header';
 export { default as Footer } from './Common/Footer/Footer';
 
+// ---- Forms ----
+export { default as CustomSearchForm } from './Form/CustomSearchForm';
+
 // ----- UI -----
 export { default as Card } from './UI/Card/Card';
 export { default as Button } from './UI/Button/Button';
 export { default as Logo } from './UI/Logo';
 export { default as Loading } from './UI/Loading';
+export { default as Input } from './UI/Input/Input';
+export { default as CustomSelect } from './UI/CustomSelect';
+export { default as ComboBox } from './UI/ComboBox';
 
 // ---- Car Hub -----
 export { default as CarHub } from './CarHub/CarHub';
@@ -21,3 +27,6 @@ export { default as HeroImage } from './Hero/HeroImage';
 // ---- Car ------
 export { default as CarItem } from './Car/CarItem';
 export { default as CarLists } from './Car/CarLists';
+
+// ---- Custom filter -----
+export { default as CustomFilter } from './CustomFilter/CustomFilter';
