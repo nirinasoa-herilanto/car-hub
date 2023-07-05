@@ -5,24 +5,45 @@ import { styled } from 'styled-components';
 
 import { fuels, yearsOfProduction } from '@project/constants';
 
+import { CustomSearchCar } from '@project/utils';
+
 import { CustomSearchForm, CustomSelect } from '@project/components';
 
 export type CustomFilterProps = {
   className?: string;
+  onSubmitSearchCar: (data: CustomSearchCar) => void;
+  onSubmitFilteredfuel?: (fuel: string) => void;
+  onSubmitFilteredYear?: (year: string) => void;
 };
 
-const CustomFilter: React.FC<CustomFilterProps> = ({ className }) => {
-  const submitSearchHandler = ({ make, model }: { make: string; model: string }) => {
-    console.log(make, model);
+const CustomFilter: React.FC<CustomFilterProps> = ({
+  className,
+  onSubmitFilteredfuel = (fuel: string) => {},
+  onSubmitFilteredYear = (year: string) => {},
+  onSubmitSearchCar,
+}) => {
+  const submitSearchCarHandler = (data: CustomSearchCar) => {
+    onSubmitSearchCar(data);
+  };
+
+  const submitSelectFuelsHandler = (fuel: string) => {
+    onSubmitFilteredfuel(fuel);
+  };
+
+  const submitSelectYearsHandler = (year: string) => {
+    onSubmitFilteredYear(year);
   };
 
   return (
     <CustomFilterWrapper className={`custom-filter ${className || ''}`}>
-      <CustomSearchForm onSubmitSearchHandler={submitSearchHandler} />
+      <CustomSearchForm onSubmitSearchHandler={submitSearchCarHandler} />
 
       <div>
-        <CustomSelect data={fuels} />
-        <CustomSelect data={yearsOfProduction} />
+        <CustomSelect data={fuels} onSelectChange={submitSelectFuelsHandler} />
+        <CustomSelect
+          data={yearsOfProduction}
+          onSelectChange={submitSelectYearsHandler}
+        />
       </div>
     </CustomFilterWrapper>
   );

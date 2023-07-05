@@ -3,13 +3,65 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { ICar, fetchCarsApi, generateCarImageUrl } from '@project/utils';
+import {
+  CustomSearchCar,
+  ICar,
+  fetchCarsApi,
+  generateCarImageUrl,
+  generateCarsWithImageData,
+} from '@project/utils';
 
 import { Hero, CarLists, Loading, CustomFilter } from '@project/components';
 
+interface ISearchInputCar {
+  make: string;
+  model: string;
+  year?: string;
+  fuel?: string;
+}
+
 export default function Homepage() {
-  const [cars, setCars] = useState<ICar[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [carsData, setCarsData] = useState<ICar[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const [fuelType, setFuelType] = useState<string>('');
+  const [year, setYear] = useState<string>('');
+
+  const submitSearchCarHandler = async ({ make, model }: CustomSearchCar) => {
+    if (fuelType.length !== 0 && year.length !== 0) {
+      setIsLoading(true);
+      const results = await fetchCarsApi<ICar[]>({
+        params: `?model=${model}&make=${make}&year=${year}&fuel_type=${fuelType}&limit=50`,
+      });
+
+      const formatedCarsResults = generateCarsWithImageData(results);
+      console.log('results', formatedCarsResults);
+
+      setIsLoading(false);
+      setCarsData(formatedCarsResults);
+
+      return;
+    }
+
+    setIsLoading(true);
+    const data = await fetchCarsApi<ICar[]>({
+      params: `?model=${model}&make=${make}&limit=50`,
+    });
+
+    const formatedCarsData = generateCarsWithImageData(data);
+
+    console.log('results', formatedCarsData);
+    setIsLoading(false);
+    setCarsData(formatedCarsData);
+  };
+
+  const submitFilteredFuel = (fuel: string) => {
+    setFuelType(fuel);
+  };
+
+  const submitFilteredYear = (year: string) => {
+    setYear(year);
+  };
 
   const displayCarCataloguesMarkup = (): JSX.Element => {
     if (isLoading) {
@@ -20,21 +72,28 @@ export default function Homepage() {
       );
     }
 
-    return <>{cars && <CarLists data={cars} />}</>;
+    return (
+      <>
+        {carsData.length !== 0 ? (
+          <CarLists data={carsData.slice(0, 6)} />
+        ) : (
+          <div className="no-results">
+            <span>{'No cars found !!!'}</span>
+          </div>
+        )}
+      </>
+    );
   };
 
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      const data = await fetchCarsApi<ICar[]>({});
+      const data = await fetchCarsApi<ICar[]>({ params: '?model=corolla&limit=50' });
 
-      const formatedCarsWithImageData = data.map((car) => {
-        const carImage = generateCarImageUrl(car);
-        return { ...car, image: carImage };
-      });
+      const formatedCarsWithImageData = generateCarsWithImageData(data);
 
       setIsLoading(false);
-      formatedCarsWithImageData && setCars(formatedCarsWithImageData);
+      formatedCarsWithImageData && setCarsData(formatedCarsWithImageData);
     })();
   }, []);
 
@@ -48,7 +107,11 @@ export default function Homepage() {
           <p>{`Explore out cars you might like`}</p>
         </div>
 
-        <CustomFilter />
+        <CustomFilter
+          onSubmitFilteredfuel={submitFilteredFuel}
+          onSubmitFilteredYear={submitFilteredYear}
+          onSubmitSearchCar={submitSearchCarHandler}
+        />
 
         {displayCarCataloguesMarkup()}
       </div>
@@ -79,9 +142,31 @@ const HomepageWrapper = styled.section`
       align-items: center;
     }
 
+    .no-results {
+      width: 100%;
+      height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .no-results span {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--blue-600);
+    }
+
     @media (min-width: 992px) {
       .car-catogue__header {
         padding: 0;
+      }
+
+      .no-results {
+        width: 100%;
+        height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   }

@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { styled } from 'styled-components';
 
-import { ICar, calculateCarRent } from '@project/utils';
+import { ICar, calculateCarRent, truncate } from '@project/utils';
 
 import { Button } from '@project/components';
 
@@ -19,9 +19,7 @@ export type CarItemProps = {
 const CarItem: React.FC<CarItemProps> = ({ className, car }) => {
   return (
     <CarItemWrapper className={`car-item ${className || ''}`}>
-      <h2 className="car-item__title">
-        {car.make} {car.model}
-      </h2>
+      <h2 className="car-item__title">{truncate(`${car.make} ${car.model}`, 18)}</h2>
 
       <div className="car-item__rent">
         <span className="car-item__rent--unit">{'$'}</span>
@@ -33,6 +31,7 @@ const CarItem: React.FC<CarItemProps> = ({ className, car }) => {
 
       <div className="car-item__image">
         <Image
+          // src={car.image || '/hero.png'} // please uncomment, if you have an access to an car image API
           src={'/hero.png'}
           alt={`${car.make}-${car.model}`}
           style={{ objectFit: 'contain' }}
@@ -100,7 +99,7 @@ const CarItemWrapper = styled.div`
 
     .car-item__image {
       width: 100%;
-      height: 298px;
+      height: 258px;
       position: relative;
     }
 

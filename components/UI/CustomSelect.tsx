@@ -12,12 +12,21 @@ interface ICustomSelectData {
 export type CustomSelectProps = {
   className?: string;
   data: ICustomSelectData[];
+  onSelectChange: (val: string) => void;
 };
 
-const CustomSelect: React.FC<CustomSelectProps> = ({ className, data }) => {
+const CustomSelect: React.FC<CustomSelectProps> = ({
+  className,
+  data,
+  onSelectChange,
+}) => {
+  const selectChangeHandler = (e: any) => {
+    onSelectChange(e.target.value);
+  };
+
   return (
     <CustomSelectWrapper className={`custom-select ${className || ''}`}>
-      <select>
+      <select onChange={selectChangeHandler}>
         {data?.map(({ title, value }) => (
           <option key={title} value={value}>
             {title}

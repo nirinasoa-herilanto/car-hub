@@ -10,7 +10,7 @@ import { Input, Button, ComboBox } from '@project/components';
 
 export type CustomSearchFormProps = {
   className?: string;
-  onSubmitSearchHandler: ({ make, model }: { make: string; model: string }) => void;
+  onSubmitSearchHandler: ({ make, model }: CustomSearchCar) => void;
 };
 
 /**
