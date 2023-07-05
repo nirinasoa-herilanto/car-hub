@@ -7,11 +7,10 @@ import {
   CustomSearchCar,
   ICar,
   fetchCarsApi,
-  generateCarImageUrl,
   generateCarsWithImageData,
 } from '@project/utils';
 
-import { Hero, CarLists, Loading, CustomFilter } from '@project/components';
+import { Hero, CarLists, Loading, CustomFilter, Modal } from '@project/components';
 
 interface ISearchInputCar {
   make: string;
@@ -100,6 +99,10 @@ export default function Homepage() {
   return (
     <HomepageWrapper className="homepage">
       <Hero />
+
+      <Modal>
+        <h1>Modal</h1>
+      </Modal>
 
       <div className="car-catalogue">
         <div className="car-catogue__header">

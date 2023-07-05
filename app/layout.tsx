@@ -19,6 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <GlobalStyle />
           <Header />
           <main className="main fit">{children}</main>
+          <div id="modal-root"></div>
           <Footer />
         </StyledComponentsRegistry>
       </body>

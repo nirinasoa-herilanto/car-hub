@@ -1,5 +1,7 @@
 // re-exports components paths here
 
+export { default as Portal } from './Portal';
+
 // ----- common -----
 export { default as Header } from './Common/Header';
 export { default as Footer } from './Common/Footer/Footer';
@@ -15,6 +17,8 @@ export { default as Loading } from './UI/Loading';
 export { default as Input } from './UI/Input/Input';
 export { default as CustomSelect } from './UI/CustomSelect';
 export { default as ComboBox } from './UI/ComboBox';
+export { default as Overlay } from './UI/Overlay/Overlay';
+export { default as Modal } from './UI/Modal/Modal';
 
 // ---- Car Hub -----
 export { default as CarHub } from './CarHub/CarHub';
