@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { ICar, fetchCarsApi, generateCarImageUrl } from '@project/utils';
 
-import { Hero, CarLists, Loading } from '@project/components';
+import { Hero, CarLists, Loading, CustomFilter } from '@project/components';
 
 export default function Homepage() {
   const [cars, setCars] = useState<ICar[]>([]);
@@ -48,6 +48,8 @@ export default function Homepage() {
           <p>{`Explore out cars you might like`}</p>
         </div>
 
+        <CustomFilter />
+
         {displayCarCataloguesMarkup()}
       </div>
     </HomepageWrapper>
@@ -60,6 +62,8 @@ const HomepageWrapper = styled.section`
       margin-bottom: 52px;
     }
     .car-catogue__header {
+      padding-left: 20px;
+      padding-right: 20px;
       margin-bottom: 32px;
     }
     .car-catogue__header p {
@@ -73,6 +77,12 @@ const HomepageWrapper = styled.section`
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+
+    @media (min-width: 992px) {
+      .car-catogue__header {
+        padding: 0;
+      }
     }
   }
 `;
