@@ -1,15 +1,15 @@
 'use client';
 import React from 'react';
-import style from './Input.module.css';
+import style from './CustomInput.module.css';
 
-export type InputProps = {
+export type CustomInputProps = {
   className?: string;
 } & JSX.IntrinsicElements['input'];
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
+const CustomInput = React.forwardRef<HTMLInputElement, CustomInputProps>(
   ({ className, ...rest }, ref) => {
     return <input className={`${style.input} ${className || ''}`} ref={ref} {...rest} />;
   }
 );
 
-export default Input;
+export default CustomInput;
