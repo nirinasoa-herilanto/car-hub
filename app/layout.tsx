@@ -20,6 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Header />
           <main className="main fit">{children}</main>
           <div id="modal-root"></div>
+          <div id="overlay-root"></div>
           <Footer />
         </StyledComponentsRegistry>
       </body>

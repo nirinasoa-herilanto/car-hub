@@ -12,5 +12,6 @@ export const variables = css`
     --blue-800: #1e40af;
     --gray-400: #9ca3af;
     --slate-200: #e2e8f0;
+    --red-600: #dc2626;
   }
 `;

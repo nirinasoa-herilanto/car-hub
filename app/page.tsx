@@ -100,10 +100,6 @@ export default function Homepage() {
     <HomepageWrapper className="homepage">
       <Hero />
 
-      <Modal>
-        <h1>Modal</h1>
-      </Modal>
-
       <div className="car-catalogue">
         <div className="car-catogue__header">
           <h1>Car catalogue</h1>
@@ -118,6 +114,11 @@ export default function Homepage() {
 
         {displayCarCataloguesMarkup()}
       </div>
+
+      {/* 
+      <Modal>
+        <h1>Modal</h1>
+      </Modal> */}
     </HomepageWrapper>
   );
 }

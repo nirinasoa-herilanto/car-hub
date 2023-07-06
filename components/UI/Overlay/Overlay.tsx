@@ -5,10 +5,12 @@ export type OverlayProps = {
   className?: string;
 } & JSX.IntrinsicElements['div'];
 
-const Overlay: React.FC<OverlayProps> = ({ className, ...rest }) => {
-  return (
-    <div className={`${styles.overlay} ${className || ''}`} {...rest}></div>
-  );
-};
+const Overlay = React.forwardRef<HTMLDivElement, OverlayProps>(
+  ({ className, ...rest }, ref) => {
+    return (
+      <div ref={ref} className={`${styles.overlay} ${className || ''}`} {...rest}></div>
+    );
+  }
+);
 
 export default Overlay;
