@@ -19,12 +19,18 @@ import {
   CustomFilter,
   Modal,
   CarDetails,
+  Button,
 } from '@project/components';
+import { carHubConfig } from '@project/config';
 
 export default function Homepage() {
-  const [carsData, setCarsData] = useState<ICar[]>([]);
+  const [data, setData] = useState<ICar[]>([]);
   const [carItem, setCarItem] = useState<ICar | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingMoreCar, setIsLoadingMoreCar] = useState<boolean>(false);
+  const [limitCarResults, setLimitCarResults] = useState<number>(
+    carHubConfig.limitResults
+  );
 
   const [fuelType, setFuelType] = useState<string>('');
   const [year, setYear] = useState<string>('');
@@ -32,6 +38,17 @@ export default function Homepage() {
   const {
     ui: { showModal },
   } = useAppStore();
+
+  const loadMoreCarHandler = async () => {
+    setIsLoadingMoreCar(true);
+
+    await new Promise(function (resolve) {
+      setTimeout(resolve, 1500);
+    });
+
+    setLimitCarResults((prev) => prev + carHubConfig.limitResults);
+    setIsLoadingMoreCar(false);
+  };
 
   const displayCarItemHandler = (car: ICar) => {
     setCarItem(car);
@@ -47,7 +64,7 @@ export default function Homepage() {
       const formatedCarsResults = generateCarsWithImageData(results);
 
       setIsLoading(false);
-      setCarsData(formatedCarsResults);
+      setData(formatedCarsResults);
 
       return;
     }
@@ -57,10 +74,10 @@ export default function Homepage() {
       params: `?model=${model}&make=${make}&limit=50`,
     });
 
-    const formatedCarsData = generateCarsWithImageData(data);
+    const formateddata = generateCarsWithImageData(data);
 
     setIsLoading(false);
-    setCarsData(formatedCarsData);
+    setData(formateddata);
   };
 
   const submitFilteredFuel = (fuel: string) => {
@@ -71,6 +88,9 @@ export default function Homepage() {
     setYear(year);
   };
 
+  /**
+   * Catalogue Markup
+   */
   const displayCarCataloguesMarkup = (): JSX.Element => {
     if (isLoading) {
       return (
@@ -82,14 +102,28 @@ export default function Homepage() {
 
     return (
       <>
-        {carsData.length !== 0 ? (
-          <CarLists
-            data={carsData.slice(0, 6)}
-            onDisplayCarItem={displayCarItemHandler}
-          />
+        {data.length !== 0 ? (
+          <>
+            <CarLists
+              data={data.slice(0, limitCarResults)}
+              onDisplayCarItem={displayCarItemHandler}
+            />
+
+            {data.length > limitCarResults && (
+              <div className="load-more">
+                {isLoadingMoreCar ? (
+                  <Loading />
+                ) : (
+                  <Button className="load-more__btn" onClick={loadMoreCarHandler}>
+                    Show more
+                  </Button>
+                )}
+              </div>
+            )}
+          </>
         ) : (
           <div className="no-results">
-            <span>{'No cars found !!!'}</span>
+            <span>{'No cars found, feel free to search a new one !!!'}</span>
           </div>
         )}
       </>
@@ -108,7 +142,7 @@ export default function Homepage() {
       const formatedCarsWithImageData = generateCarsWithImageData(data);
 
       setIsLoading(false);
-      formatedCarsWithImageData && setCarsData(formatedCarsWithImageData);
+      formatedCarsWithImageData && setData(formatedCarsWithImageData);
     })();
   }, []);
 
@@ -156,7 +190,7 @@ const HomepageWrapper = styled.section`
 
     .car-catalogue__loading {
       width: 100%;
-      height: 520px;
+      height: 250px;
 
       display: flex;
       justify-content: center;
@@ -165,10 +199,9 @@ const HomepageWrapper = styled.section`
 
     .no-results {
       width: 100%;
-      height: 500px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      height: 250px;
+      padding-left: 20px;
+      padding-right: 20px;
     }
 
     .no-results span {
@@ -177,17 +210,24 @@ const HomepageWrapper = styled.section`
       color: var(--blue-600);
     }
 
+    .load-more {
+      margin-top: 32px;
+      margin-bottom: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .load-more__btn {
+      width: 198px;
+      height: 56px;
+      font-size: 21px;
+      border-radius: 50px;
+    }
+
     @media (min-width: 992px) {
       .car-catogue__header {
-        padding: 0;
-      }
-
-      .no-results {
-        width: 100%;
-        height: 500px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        /* padding: 0; */
       }
     }
   }
