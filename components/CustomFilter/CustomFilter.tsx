@@ -64,7 +64,6 @@ const CustomFilterWrapper = styled.div`
     }
 
     @media (min-width: 992px) {
-      padding: 0;
       display: flex;
       flex-direction: row;
       justify-content: space-between;

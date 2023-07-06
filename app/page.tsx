@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { useAppStore } from '@project/store';
+
 import {
   CustomSearchCar,
   ICar,
@@ -10,21 +12,30 @@ import {
   generateCarsWithImageData,
 } from '@project/utils';
 
-import { Hero, CarLists, Loading, CustomFilter, Modal } from '@project/components';
-
-interface ISearchInputCar {
-  make: string;
-  model: string;
-  year?: string;
-  fuel?: string;
-}
+import {
+  Hero,
+  CarLists,
+  Loading,
+  CustomFilter,
+  Modal,
+  CarDetails,
+} from '@project/components';
 
 export default function Homepage() {
   const [carsData, setCarsData] = useState<ICar[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [carItem, setCarItem] = useState<ICar | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [fuelType, setFuelType] = useState<string>('');
   const [year, setYear] = useState<string>('');
+
+  const {
+    ui: { showModal },
+  } = useAppStore();
+
+  const displayCarItemHandler = (car: ICar) => {
+    setCarItem(car);
+  };
 
   const submitSearchCarHandler = async ({ make, model }: CustomSearchCar) => {
     if (fuelType.length !== 0 && year.length !== 0) {
@@ -34,7 +45,6 @@ export default function Homepage() {
       });
 
       const formatedCarsResults = generateCarsWithImageData(results);
-      console.log('results', formatedCarsResults);
 
       setIsLoading(false);
       setCarsData(formatedCarsResults);
@@ -49,7 +59,6 @@ export default function Homepage() {
 
     const formatedCarsData = generateCarsWithImageData(data);
 
-    console.log('results', formatedCarsData);
     setIsLoading(false);
     setCarsData(formatedCarsData);
   };
@@ -74,7 +83,10 @@ export default function Homepage() {
     return (
       <>
         {carsData.length !== 0 ? (
-          <CarLists data={carsData.slice(0, 6)} />
+          <CarLists
+            data={carsData.slice(0, 6)}
+            onDisplayCarItem={displayCarItemHandler}
+          />
         ) : (
           <div className="no-results">
             <span>{'No cars found !!!'}</span>
@@ -83,6 +95,10 @@ export default function Homepage() {
       </>
     );
   };
+
+  useEffect(() => {
+    if (!showModal) setCarItem(null);
+  }, [showModal]);
 
   useEffect(() => {
     (async () => {
@@ -115,10 +131,11 @@ export default function Homepage() {
         {displayCarCataloguesMarkup()}
       </div>
 
-      {/* 
-      <Modal>
-        <h1>Modal</h1>
-      </Modal> */}
+      {showModal && carItem && (
+        <Modal>
+          <CarDetails car={carItem} />
+        </Modal>
+      )}
     </HomepageWrapper>
   );
 }

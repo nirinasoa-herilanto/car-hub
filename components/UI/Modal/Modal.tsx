@@ -1,16 +1,12 @@
 'use client';
 
 import React, { useRef, useEffect } from 'react';
-import ReactDOM from 'react-dom';
 import style from './Modal.module.css';
-import {
-  enableBodyScroll,
-  disableBodyScroll,
-  clearAllBodyScrollLocks,
-} from 'body-scroll-lock';
+import { lock, unlock, clearBodyLocks } from 'tua-body-scroll-lock';
 
 import ModalContainer from './ModalContainer';
-import { Overlay } from '@project/components';
+import { Overlay, Portal } from '@project/components';
+import { useAppStore } from '@project/store';
 
 export type ModalProps = {
   className?: string;
@@ -21,48 +17,35 @@ export type ModalProps = {
  * Use to create a modal on UI
  */
 const Modal: React.FC<ModalProps> = ({ className, children }) => {
-  const modalRootRef = useRef<HTMLElement | null>(null);
-  const overlayRootRef = useRef<HTMLElement | null>(null);
-
   const overlayRef = useRef() as React.MutableRefObject<HTMLDivElement>;
 
-  useEffect(() => {
-    overlayRootRef.current = document.getElementById('overlay-root') as HTMLElement;
+  const {
+    ui: { displayModalHandler },
+  } = useAppStore();
 
-    if (overlayRootRef.current && overlayRef.current) {
-      disableBodyScroll(overlayRef.current);
+  useEffect(() => {
+    if (overlayRef.current) {
+      lock(overlayRef.current);
     } else {
-      enableBodyScroll(overlayRef.current);
+      unlock(overlayRef.current);
     }
 
     return () => {
-      overlayRootRef.current = null;
-      clearAllBodyScrollLocks();
+      clearBodyLocks();
     };
-  }, [overlayRootRef.current]);
-
-  useEffect(() => {
-    modalRootRef.current = document.getElementById('modal-root') as HTMLElement;
-
-    return () => {
-      modalRootRef.current = null;
-    };
-  }, [modalRootRef.current]);
+  }, [overlayRef.current]);
 
   return (
-    <React.Fragment>
-      {modalRootRef.current &&
-        ReactDOM.createPortal(
-          <ModalContainer className={className || ''}>{children}</ModalContainer>,
-          modalRootRef.current
-        )}
-
-      {overlayRootRef.current &&
-        ReactDOM.createPortal(
-          <Overlay ref={overlayRef} className={style['modal__overlay']} />,
-          overlayRootRef.current
-        )}
-    </React.Fragment>
+    <Portal markupTo={document.getElementById('modal-root') as HTMLElement}>
+      <div className={style['modal']}>
+        <ModalContainer className={className || ''}>{children}</ModalContainer>
+        <Overlay
+          ref={overlayRef}
+          className={style['modal__overlay']}
+          onClick={displayModalHandler}
+        />
+      </div>
+    </Portal>
   );
 };
 

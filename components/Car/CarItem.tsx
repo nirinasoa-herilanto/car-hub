@@ -4,6 +4,8 @@ import React from 'react';
 import Image from 'next/image';
 import { styled } from 'styled-components';
 
+import { useAppStore } from '@project/store';
+
 import { ICar, calculateCarRent, truncate } from '@project/utils';
 
 import { Button } from '@project/components';
@@ -11,12 +13,26 @@ import { Button } from '@project/components';
 export type CarItemProps = {
   className?: string;
   car: ICar;
+  onDisplayCarItem?: (car: ICar) => void;
 };
 
 /**
  * Use to display car item
  */
-const CarItem: React.FC<CarItemProps> = ({ className, car }) => {
+const CarItem: React.FC<CarItemProps> = ({
+  className,
+  onDisplayCarItem = (car: ICar) => {},
+  car,
+}) => {
+  const {
+    ui: { displayModalHandler },
+  } = useAppStore();
+
+  const displayCarItemHandler = () => {
+    onDisplayCarItem(car);
+    displayModalHandler();
+  };
+
   return (
     <CarItemWrapper className={`car-item ${className || ''}`}>
       <h2 className="car-item__title">{truncate(`${car.make} ${car.model}`, 18)}</h2>
@@ -64,7 +80,7 @@ const CarItem: React.FC<CarItemProps> = ({ className, car }) => {
         </div>
       </div>
 
-      <Button className="car-item__actions" type="button" disabled>
+      <Button className="car-item__actions" type="button" onClick={displayCarItemHandler}>
         <span>{'View more'}</span>
         <Image src={'/right-arrow.svg'} alt={`gas`} width={24} height={24} />
       </Button>

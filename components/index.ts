@@ -31,6 +31,7 @@ export { default as HeroImage } from './Hero/HeroImage';
 // ---- Car ------
 export { default as CarItem } from './Car/CarItem';
 export { default as CarLists } from './Car/CarLists';
+export { default as CarDetails } from './Car/CarDetails';
 
 // ---- Custom filter -----
 export { default as CustomFilter } from './CustomFilter/CustomFilter';
