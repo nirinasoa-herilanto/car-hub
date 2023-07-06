@@ -14,7 +14,7 @@ export { default as Card } from './UI/Card/Card';
 export { default as Button } from './UI/Button/Button';
 export { default as Logo } from './UI/Logo';
 export { default as Loading } from './UI/Loading';
-export { default as Input } from './UI/Input/Input';
+export { default as CustomInput } from './UI/CustomInput/CustomInput';
 export { default as CustomSelect } from './UI/CustomSelect';
 export { default as ComboBox } from './UI/ComboBox';
 export { default as Overlay } from './UI/Overlay/Overlay';

@@ -6,7 +6,9 @@ import { styled } from 'styled-components';
 
 import { manufacturers } from '@project/constants';
 
-import { Input, Button, ComboBox } from '@project/components';
+import { CustomSearchCar } from '@project/utils';
+
+import { CustomInput, Button, ComboBox } from '@project/components';
 
 export type CustomSearchFormProps = {
   className?: string;
@@ -59,7 +61,7 @@ const CustomSearchForm: React.FC<CustomSearchFormProps> = ({
       <div className="search-form__input">
         <div>
           <Image src="/car-logo.svg" alt="car logo" width={42} height={42} />
-          <Input
+          <CustomInput
             type="text"
             value={make}
             onChange={makeChangeHandler}
@@ -70,7 +72,7 @@ const CustomSearchForm: React.FC<CustomSearchFormProps> = ({
 
         <div>
           <Image src="/model-icon.png" alt="car logo" width={42} height={42} />
-          <Input
+          <CustomInput
             type="text"
             value={model}
             onChange={modelChangeHandler}
