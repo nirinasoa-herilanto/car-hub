@@ -3,6 +3,7 @@ import { StyledComponentsRegistry } from '@project/lib';
 import { GlobalStyle } from '@project/styles';
 
 import { Footer, Header } from '@project/components';
+import { AppStoreProvider } from '@project/store';
 
 const poppins = Poppins({ subsets: ['latin'], weight: '400' });
 
@@ -17,11 +18,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={poppins.className}>
         <StyledComponentsRegistry>
           <GlobalStyle />
-          <Header />
-          <main className="main fit">{children}</main>
-          <div id="modal-root"></div>
-          <div id="overlay-root"></div>
-          <Footer />
+          <AppStoreProvider>
+            <Header />
+            <main className="main fit">{children}</main>
+            <div id="modal-root"></div>
+            <div id="overlay-root"></div>
+            <Footer />
+          </AppStoreProvider>
         </StyledComponentsRegistry>
       </body>
     </html>
