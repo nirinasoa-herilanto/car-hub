@@ -10,18 +10,23 @@ import { Card, CarItem } from '@project/components';
 export type CarListsProps = {
   className?: string;
   data: ICar[];
+  onDisplayCarItem?: (car: ICar) => void;
 };
 
 /**
  * Use to display a list of cars
  */
-const CarLists: React.FC<CarListsProps> = ({ className, data }) => {
+const CarLists: React.FC<CarListsProps> = ({
+  className,
+  onDisplayCarItem = (car: ICar) => {},
+  data,
+}) => {
   return (
     <CarListsWrapper className={`car-lists ${className || ''}`}>
       {data?.map((car, index) => (
         <li key={index}>
           <Card className="car-lists__item">
-            <CarItem car={car} />
+            <CarItem car={car} onDisplayCarItem={onDisplayCarItem} />
           </Card>
         </li>
       ))}
@@ -64,7 +69,6 @@ const CarListsWrapper = styled.ul`
       gap: 20px;
     }
     @media (min-width: 992px) {
-      padding: 0;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;

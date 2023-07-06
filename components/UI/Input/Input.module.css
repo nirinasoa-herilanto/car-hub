@@ -1,0 +1,10 @@
+.input {
+  width: 100%;
+  height: 42px;
+  outline: none;
+  border: none;
+  font-size: 18px;
+  padding: 10px;
+  color: var(--zinc-800);
+  background: var(--slate-200);
+}

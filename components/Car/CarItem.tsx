@@ -4,24 +4,38 @@ import React from 'react';
 import Image from 'next/image';
 import { styled } from 'styled-components';
 
-import { ICar, calculateCarRent } from '@project/utils';
+import { useAppStore } from '@project/store';
+
+import { ICar, calculateCarRent, truncate } from '@project/utils';
 
 import { Button } from '@project/components';
 
 export type CarItemProps = {
   className?: string;
   car: ICar;
+  onDisplayCarItem?: (car: ICar) => void;
 };
 
 /**
  * Use to display car item
  */
-const CarItem: React.FC<CarItemProps> = ({ className, car }) => {
+const CarItem: React.FC<CarItemProps> = ({
+  className,
+  onDisplayCarItem = (car: ICar) => {},
+  car,
+}) => {
+  const {
+    ui: { displayModalHandler },
+  } = useAppStore();
+
+  const displayCarItemHandler = () => {
+    onDisplayCarItem(car);
+    displayModalHandler();
+  };
+
   return (
     <CarItemWrapper className={`car-item ${className || ''}`}>
-      <h2 className="car-item__title">
-        {car.make} {car.model}
-      </h2>
+      <h2 className="car-item__title">{truncate(`${car.make} ${car.model}`, 18)}</h2>
 
       <div className="car-item__rent">
         <span className="car-item__rent--unit">{'$'}</span>
@@ -33,6 +47,7 @@ const CarItem: React.FC<CarItemProps> = ({ className, car }) => {
 
       <div className="car-item__image">
         <Image
+          // src={car.image || '/hero.png'} // please uncomment, if you have an access to an car image API
           src={'/hero.png'}
           alt={`${car.make}-${car.model}`}
           style={{ objectFit: 'contain' }}
@@ -65,7 +80,7 @@ const CarItem: React.FC<CarItemProps> = ({ className, car }) => {
         </div>
       </div>
 
-      <Button className="car-item__actions" type="button" disabled>
+      <Button className="car-item__actions" type="button" onClick={displayCarItemHandler}>
         <span>{'View more'}</span>
         <Image src={'/right-arrow.svg'} alt={`gas`} width={24} height={24} />
       </Button>
@@ -100,7 +115,7 @@ const CarItemWrapper = styled.div`
 
     .car-item__image {
       width: 100%;
-      height: 298px;
+      height: 258px;
       position: relative;
     }
 
