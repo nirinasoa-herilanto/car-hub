@@ -33,7 +33,7 @@ const Modal: React.FC<ModalProps> = ({ className, children }) => {
     return () => {
       clearBodyLocks();
     };
-  }, [overlayRef.current]);
+  }, []);
 
   return (
     <Portal markupTo={document.getElementById('modal-root') as HTMLElement}>
