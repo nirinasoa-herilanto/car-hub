@@ -14,7 +14,9 @@ We can launched the app by doing this command on our terminal, then open the bro
 npm run dev
 ```
 
-# Deployment N/A
+# Deployment
+
+The project is available on this [link](https://nhr-carhub.vercel.app/)
 
 # Author
 
