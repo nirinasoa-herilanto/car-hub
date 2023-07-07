@@ -28,8 +28,8 @@ const ModalContainer: React.FC<ModalContainerProps> = ({ className, children }) 
 
 const ModalContainerWrapper = styled.div`
   &.modal-container {
-    width: 75%;
-    height: 75%;
+    width: 90%;
+    height: 90%;
     background: var(--white);
     border-radius: 20px;
     position: relative;
@@ -53,6 +53,15 @@ const ModalContainerWrapper = styled.div`
       box-shadow: 2px 2px 8px rgb(0, 0, 0, 0.4);
       cursor: pointer;
       z-index: 5;
+    }
+
+    @media (min-width: 768px) {
+      width: 90%;
+      height: 75%;
+    }
+    @media (min-width: 992px) {
+      width: 80%;
+      height: 75%;
     }
   }
 `;
