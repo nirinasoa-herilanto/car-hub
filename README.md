@@ -1,4 +1,4 @@
-# Car showcase
+# Car Hub
 
 Car showcase is a project created by JSMastery, by using the new features of `Next JS 13` with the app directory.
 
@@ -8,7 +8,7 @@ I saw this project on [JSMastery Youtube Channel](https://www.youtube.com/watch?
 
 After cloning the repository, and installing all dependencies of the applications.
 
-We can launched the app by doing this command on our terminal, then open the browser with [http://localhost:3000](http://localhost:3000) (local development)
+We can launch the app by doing this command on our terminal, then open the browser with [http://localhost:3000](http://localhost:3000) (local development)
 
 ```
 npm run dev
